@@ -40,8 +40,25 @@ public class Hand extends GroupOfCards{
         }
         return handValue;
     }
+    //takes card from top of deck and puts it to hand
+    public void takeFromDeck(Deck deck){
+        hand.add(deck.giveCard());
+    }
+    
+    
     //method to get card in hand at index position
+    //mainly to show dealer's first card
     public PlayingCard getCard(int index){
         return hand.get(index);
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder handString = new StringBuilder(); 
+        for (PlayingCard card : hand) { 
+            handString.append(card).append(" ");
+        } 
+       handString.append("Hand Total: ").append(handValue());
+       return handString.toString();
     }
 }

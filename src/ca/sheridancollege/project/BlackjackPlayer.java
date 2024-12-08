@@ -12,12 +12,26 @@ import java.util.Scanner;
  */
 public class BlackjackPlayer extends Player {
     Scanner input = new Scanner(System.in);
-    public BlackjackPlayer(){
+
+    public BlackjackPlayer() {
         super.setName("player");
     }
- 
+
     @Override
-    public void play(){
-    
+    public void play(Deck deck) {
+        while (true) {
+            System.out.println("Choose an action: (1) Hit (2) Stand");
+            int choice = input.nextInt();
+            if (choice == 1) {
+                hit(deck);
+                if (getHand().handValue() > 21) {
+                    System.out.println("Bust! You lose.");
+                    break;
+                }
+            } else if (choice == 2) {
+                break;
+            }
+        }
     }
 }
+

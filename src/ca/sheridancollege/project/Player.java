@@ -53,7 +53,7 @@ public abstract class Player {
 
     public void showHand(){
         System.out.println(this.name+"'s hand:");
-        System.out.println(this.hand +" Hand Total: "+this.hand);
+        System.out.println(this.hand);
     }
     
     //check if player has blackjack
@@ -65,11 +65,18 @@ public abstract class Player {
             return false;
         }
     }
-    
+    public void hit(Deck deck){
+        this.hand.takeFromDeck(deck);
+        this.showHand();
+    }
+    //dealer hit that doesnt show hand after drawing
+    public void dealerHit(Deck deck){
+        this.hand.takeFromDeck(deck);
+    }
     /**
      * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
      * with logic to play your game.
      */
-    public abstract void play();
+    public abstract void play(Deck deck);
 
 }

@@ -8,17 +8,23 @@ package ca.sheridancollege.project;
  *
  * @author Mario
  */
-public class BlackjackDealer extends Player{
-    
-    //creates player named dealer, uses player class's method
-    public BlackjackDealer(){
-    super.setName("dealer");
+public class BlackjackDealer extends Player {
+    public BlackjackDealer() {
+        super.setName("dealer");
     }
-    public void showDealerHand(){
-        System.out.println("the dealer's face up card:");
+
+    public void showDealerHand() {
+        System.out.println("The dealer's face-up card:");
         System.out.println(super.getHand().getCard(0));
     }
-    @Override
-    public void play(){}
     
+
+    @Override
+    public void play(Deck deck) {
+        while (getHand().handValue() < 17) {
+            hit(deck);
+        }
+        
+    }
 }
+

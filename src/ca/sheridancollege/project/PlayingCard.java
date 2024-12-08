@@ -31,6 +31,6 @@ public class PlayingCard extends Card{
     }
     @Override
     public String toString(){
-        return (value+" of "+suit +":"+this.getValue());
+        return value+" of "+suit;
     };
 }
