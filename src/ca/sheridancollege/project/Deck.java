@@ -21,19 +21,22 @@ public class Deck extends GroupOfCards{
         shuffle();
     }
     
-    public void createDeck(){
-        //nested for loop to add every card of every value and suit
-        //to deck
+public void createDeck() { // 6-8 decks for the shoe 
+    int shoeCount = 6; 
+    for (int i = 0; i < shoeCount; i++) { 
         for (Suit suit : Suit.values()) { 
             for (Value value : Value.values()) { 
-                deck.add(new PlayingCard(suit, value)); 
-            } 
+                deck.add(new PlayingCard(suit, value));
+            }
         }
-        setCards(new ArrayList<>(deck));
     }
+    setCards(new ArrayList<>(deck));
+}
+    
+    @Override
     public void shuffle() { 
         Collections.shuffle(deck, new Random());
-    } // Shuffle using Random for true randomness }
+    }
         
     //method to take card from the deck and return it
     public PlayingCard giveCard(){
