@@ -12,15 +12,17 @@ package ca.sheridancollege.project;
  * @author Paul Bonenfant Jan 2020
  */
 public abstract class Player {
-
+    private Hand hand;
     private String name; //the unique name for this player
+
 
     /**
      * A constructor that allows you to set the player's unique ID
      *
      * @param name the unique ID to assign to this player.
      */
-    public Player(String name) {
+    public Player() {
+        this.hand=new Hand(21);
         this.name = name;
     }
 
@@ -39,7 +41,31 @@ public abstract class Player {
     public void setName(String name) {
         this.name = name;
     }
+    
+    //get and set hands
+    public void setHand(Hand hand){
+        this.hand = hand;
+    }
+    
+    public Hand getHand(){
+        return this.hand;
+    }
 
+    public void showHand(){
+        System.out.println(this.name+"'s hand:");
+        System.out.println(this.hand +" Hand Total: "+this.hand);
+    }
+    
+    //check if player has blackjack
+    public boolean hasBlackjack(){
+        if (this.getHand().handValue()==21){
+            return true;
+                }
+        else{
+            return false;
+        }
+    }
+    
     /**
      * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
      * with logic to play your game.

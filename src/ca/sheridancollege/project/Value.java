@@ -23,15 +23,16 @@ public enum Value {
     Queen("queen",10),
     King("king",10);
     
-    String name;
+    String cardName;
     int cardValue;
-    Value(String name,int cardValue){
-    this.name=name;
+    
+    Value(String cardName,int cardValue){
+    this.cardName=cardName;
     this.cardValue=cardValue;
     }
     
     @Override 
     public String toString(){
-    return name;
+    return cardName;
     }
 }
