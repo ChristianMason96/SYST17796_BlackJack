@@ -15,8 +15,6 @@ public class Hand extends GroupOfCards{
         super(size);
         hand = new ArrayList<>();
     }
-    
-    
     //see value of hand
     public int handValue(){
         int handValue=0;
@@ -44,7 +42,9 @@ public class Hand extends GroupOfCards{
     public void takeFromDeck(Deck deck){
         hand.add(deck.giveCard());
     }
-    
+    public int size(){
+        return hand.size();
+    }
     
     //method to get card in hand at index position
     //mainly to show dealer's first card

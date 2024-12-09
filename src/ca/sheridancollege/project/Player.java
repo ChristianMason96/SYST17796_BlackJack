@@ -36,11 +36,11 @@ public abstract class Player {
     }
 
     public void showHand() {
-        System.out.println(this.hand);
+        System.out.println("\n"+this.hand+"\n");
     }
 
     public boolean hasBlackjack() {
-        return this.getHand().handValue() == 21;
+        return this.getHand().handValue() == 21&&this.getHand().size()==2;
     }
 
     public void hit(Deck deck) {
