@@ -45,9 +45,3 @@ public void createDeck() { // 6-8 decks for the shoe
         return topCard;
     }
 }
-
- 
-  
-    
- 
-    

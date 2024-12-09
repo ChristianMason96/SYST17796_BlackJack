@@ -4,6 +4,8 @@
  */
 package ca.sheridancollege.project;
 
+import java.util.Scanner;
+
 
 
 /**
@@ -12,79 +14,73 @@ package ca.sheridancollege.project;
  */
 
 
-import java.util.Scanner;
-
 public class BlackjackPlayer extends Player {
     private double balance;
-    private double currentBet;
-    Scanner input = new Scanner(System.in);
+    private double bet;
+    private Scanner input;
 
-    public BlackjackPlayer(String name, double initialBalance) {
+    public BlackjackPlayer(String name, double startingBalance) {
         super.setName(name);
-        this.balance = initialBalance;
+        this.balance = startingBalance;
+        this.input = new Scanner(System.in);
     }
 
     //get player balance
     public double getBalance() {
         return balance;
     }
-
-    //get their bet
-    public double getCurrentBet() {
-        return currentBet;
-    }
-
-    public void placeBet() {
-        System.out.println(getName() + ", you have $" + balance);
-        System.out.println("Enter your bet amount:");
-        double bet = input.nextDouble();
-        
-        //simple error checking to ensure bet is not negative or they dont bet more than they have
-        while (bet > balance || bet <= 0) {
-            System.out.println("Invalid bet amount. Your bet must be between $1 and $" + balance);
-            System.out.println("Enter your bet amount:");
-            bet = input.nextDouble();
-        }
-        currentBet = bet;
+    
+    //method to take the bet from user's default balance of 100
+    public void placeBet(double bet) {
+        this.bet = bet;
         balance -= bet;
     }
-    // Win payout
+
+    //adds original bet back to balance * 2 for winning
     public void winBet() {
-        balance += currentBet * 2; 
+        balance += 2 * bet;
     }
-    
-    //if player ties with dealer return their bet to them
-    public void tieBet() {
-        balance += currentBet;
-    }
-    
-    //if player gets blackjack, increased payout
+    //if player's starting hand is blackjack, they get extra payout
     public void blackjackPayout() {
-        balance += currentBet * 2.5; 
+        balance += 2.5 * bet;
+    }
+
+    //returns bet to player if they tie with the dealer
+    public void tieBet() {
+        balance += bet;
     }
 
     @Override
     public void play(Deck deck) {
-        while (true) {
-            System.out.println(getName() + "'s turn:");
-            // Show the player's hand at the start of their turn
-            showHand(); 
-            System.out.println(getName() + ", choose an action: (1) Hit (2) Stand");
-            int choice = input.nextInt();
-            if (choice == 1) {
-                hit(deck);
-                if (getHand().handValue() > 21) {
-                    System.out.println("Bust! You lose.");
-                    break;
+        //control variable
+        boolean continuePlaying = true;
+        //player still plays while continuePlaying is true
+        while (continuePlaying && this.getHand().handValue() < 21) {
+            System.out.println(this.getName() + ", choose an action: (1) Hit (2) Stand");
+            int action = input.nextInt();
+            
+            //if player types 1, they hit and keep playing their turn
+            if (action == 1) {
+                this.hit(deck);
+                if (this.getHand().handValue() > 21) {
+                    System.out.println(this.getName() + " busts with " + this.getHand().handValue());
+                    continuePlaying = false;
                 }
-                //if handvalue=21, automatically end the player's turn
-                else if (getHand().handValue() == 21) { 
-                    System.out.println("Your hand value is 21, your turn ends"); 
-                    break; 
-                }
-            } else if (choice == 2) {
-                break;
+            }
+            //if player enters 2, they end their turn with their current hand
+            else if (action == 2) {
+                continuePlaying = false;
+            } 
+            else {
+                System.out.println("Invalid action. Please choose (1) Hit or (2) Stand.");
             }
         }
+    }
+
+    @Override
+    public void hit(Deck deck) {
+        //output to let us know which player was dealt card in initial dealing
+        System.out.println(this.getName() + " is dealt a card.");
+        super.hit(deck);
     }
 }

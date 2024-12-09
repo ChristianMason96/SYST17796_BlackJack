@@ -13,6 +13,7 @@ public class BlackjackDealer extends Player {
         super.setName("dealer");
     }
 
+    //shows a dealer card to the players
     public void showDealerHand() {
         System.out.println("The dealer's face-up card:");
         System.out.println(super.getHand().getCard(0));
@@ -21,6 +22,7 @@ public class BlackjackDealer extends Player {
 
     @Override
     public void play(Deck deck) {
+        //makes dealer hit until their score is lower than 17
         while (getHand().handValue() < 17) {
             hit(deck);
         }

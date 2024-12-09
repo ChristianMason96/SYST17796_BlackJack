@@ -38,7 +38,7 @@ public class Hand extends GroupOfCards{
         }
         return handValue;
     }
-    //takes card from top of deck and puts it to hand
+    //takes card from deck and puts it to hand
     public void takeFromDeck(Deck deck){
         hand.add(deck.giveCard());
     }
@@ -52,13 +52,18 @@ public class Hand extends GroupOfCards{
         return hand.get(index);
     }
     
-    @Override
-    public String toString(){
-        StringBuilder handString = new StringBuilder(); 
-        for (PlayingCard card : hand) { 
-            handString.append(card).append(" ");
-        } 
-       handString.append("Hand Total: ").append(handValue());
-       return handString.toString();
+   @Override
+    public String toString() {
+        //empty string initialized
+        String handString = "";
+        
+        //add card to empty string for every card in the hand
+        for (PlayingCard card : hand) {
+            handString += card + " ";
+        }
+        
+        //add total value of cards in hand to string
+        handString += "Hand Total: " + handValue();
+        return handString;
     }
 }

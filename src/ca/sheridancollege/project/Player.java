@@ -16,6 +16,7 @@ public abstract class Player {
     private String name;
 
     public Player() {
+        //maximum possible theoretical handsize
         this.hand = new Hand(21);
     }
 
@@ -34,23 +35,26 @@ public abstract class Player {
     public void setHand(Hand hand) {
         this.hand = hand;
     }
-
+    //print hand
     public void showHand() {
         System.out.println("\n"+this.hand+"\n");
     }
-
+    
+    //if hand value = 21 and there are 2 cards in hand, player has blackjack
     public boolean hasBlackjack() {
         return this.getHand().handValue() == 21&&this.getHand().size()==2;
     }
-
+    
+    //hit and print players new hand
     public void hit(Deck deck) {
         this.hand.takeFromDeck(deck);
         this.showHand();
     }
 
+    //deal to dealer without printing cards
     public void dealerHit(Deck deck) {
         this.hand.takeFromDeck(deck);
     }
-
+    
     public abstract void play(Deck deck);
 }

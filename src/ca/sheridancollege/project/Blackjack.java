@@ -10,6 +10,7 @@ package ca.sheridancollege.project;
  *
  * @author Mario
  */
+
 import java.util.ArrayList;
 
 public class Blackjack extends Game {
@@ -17,10 +18,12 @@ public class Blackjack extends Game {
     private BlackjackDealer dealer;
     private ArrayList<BlackjackPlayer> players;
 
-    public Blackjack(String name, int playerCount) {
+    public Blackjack(String name) {
         super(name);
-        //casinos use 6-8 decks in their tables so we create one of similar size
-        deck = new Deck(312); // 6 decks x 52 cards = 312 cards
+    }
+
+    public void initializePlayers(int playerCount) {
+        deck = new Deck(312);
         dealer = new BlackjackDealer();
         players = new ArrayList<>(playerCount);
 
@@ -31,19 +34,45 @@ public class Blackjack extends Game {
         deck.shuffle();
     }
 
+    public boolean dealerHasBlackjack() {
+        return dealer.hasBlackjack();
+    }
+
+    public void dealInitialCards() {
+        dealer.dealerHit(deck);
+        dealer.dealerHit(deck);
+        for (BlackjackPlayer player : players) {
+            player.hit(deck);
+            player.hit(deck);
+        }
+    }
+
+    @Override
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(players);
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public BlackjackDealer getDealer() {
+        return dealer;
+    }
     @Override
     public void declareWinner() {
+        System.out.println("Dealer's full hand:");
         dealer.showHand();
 
         for (BlackjackPlayer player : players) {
             //variables to store hand values
             int playerValue = player.getHand().handValue();
             int dealerValue = dealer.getHand().handValue();
-            
+
             //hands printed once game concludes
             System.out.println(player.getName() + "'s final hand:");
             player.showHand();
-            
+
             //player hand over 21, they lose even if dealer busts
             if (playerValue > 21) {
                 System.out.println(player.getName() + " busts!");
@@ -56,7 +85,7 @@ public class Blackjack extends Game {
             //player gets bonus payout for getting blackjack
             else if (player.hasBlackjack() && dealerValue != 21) {
                 System.out.println(player.getName() + " has blackjack!");
-                player.blackjackPayout(); 
+                player.blackjackPayout();
             } 
             //player didnt bust and beat player
             else if (playerValue > dealerValue) {
@@ -70,7 +99,7 @@ public class Blackjack extends Game {
             //covers ties
             else {
                 System.out.println(player.getName()+" ties");
-                player.tieBet(); 
+                player.tieBet();
             }
             //print player's balance after game
             System.out.println(player.getName() + "'s balance: $" + player.getBalance());
@@ -78,51 +107,8 @@ public class Blackjack extends Game {
     }
 
     @Override
-    public void play() {
-        for (BlackjackPlayer player : players) {
-            player.placeBet();
-        }
-        //give dealer 2 cards and show one
-        dealer.dealerHit(deck);
-        dealer.dealerHit(deck);
-        dealer.showDealerHand();
-
-        for (BlackjackPlayer player : players) {
-            System.out.println(player.getName()+"'s hand:");
-            player.hit(deck);
-            player.hit(deck);
-        }
-
-        if (dealer.hasBlackjack()) {
-            System.out.println("Dealer has blackjack!");
-            declareWinner();
-            return;
-        }
-
-        boolean allPlayersBusted = true;
-
-        for (BlackjackPlayer player : players) {
-            if (player.hasBlackjack()) {
-                System.out.println(player.getName() + " has blackjack!");
-            } else {
-                player.play(deck);
-                if (player.getHand().handValue() <= 21) {
-                    allPlayersBusted = false;
-                }
-            }
-        }
-
-        if (allPlayersBusted) {
-            System.out.println("All players busted! Dealer wins.");
-            declareWinner();
-            return;
-        }
-
-        System.out.println("Dealer's turn");
-        System.out.println("Dealer hits and stands on 17 or above");
-        dealer.play(deck);
-
-        declareWinner();
+    public void play(){
+    //method is in controller
     }
 }
 
