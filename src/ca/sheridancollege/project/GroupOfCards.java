@@ -23,6 +23,7 @@ public class GroupOfCards {
 
     public GroupOfCards(int size) {
         this.size = size;
+        this.cards=new ArrayList<>(size);
     }
 
     /**
@@ -33,6 +34,11 @@ public class GroupOfCards {
     public ArrayList<Card> getCards() {
         return cards;
     }
+    
+    public void setCards(ArrayList<Card> cards){
+        this.cards=cards;
+    }
+   
 
     public void shuffle() {
         Collections.shuffle(cards);
@@ -46,10 +52,11 @@ public class GroupOfCards {
     }
 
     /**
-     * @param size the max size for the group of cards
+     * @param- size the max size for the group of cards
      */
     public void setSize(int size) {
         this.size = size;
     }
+  
 
 }//end class

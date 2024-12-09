@@ -1,0 +1,32 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package ca.sheridancollege.project;
+
+/**
+ *
+ * @author Mario
+ */
+public class BlackjackDealer extends Player {
+    public BlackjackDealer() {
+        super.setName("dealer");
+    }
+
+    //shows a dealer card to the players
+    public void showDealerHand() {
+        System.out.println("The dealer's face-up card:");
+        System.out.println(super.getHand().getCard(0));
+    }
+    
+
+    @Override
+    public void play(Deck deck) {
+        //makes dealer hit until their score is lower than 17
+        while (getHand().handValue() < 17) {
+            hit(deck);
+        }
+        
+    }
+}
+

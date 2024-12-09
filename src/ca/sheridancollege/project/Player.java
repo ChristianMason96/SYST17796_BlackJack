@@ -12,38 +12,49 @@ package ca.sheridancollege.project;
  * @author Paul Bonenfant Jan 2020
  */
 public abstract class Player {
+    private Hand hand;
+    private String name;
 
-    private String name; //the unique name for this player
-
-    /**
-     * A constructor that allows you to set the player's unique ID
-     *
-     * @param name the unique ID to assign to this player.
-     */
-    public Player(String name) {
-        this.name = name;
+    public Player() {
+        //maximum possible theoretical handsize
+        this.hand = new Hand(21);
     }
 
-    /**
-     * @return the player name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Ensure that the playerID is unique
-     *
-     * @param name the player name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
-     * with logic to play your game.
-     */
-    public abstract void play();
+    public Hand getHand() {
+        return hand;
+    }
 
+    public void setHand(Hand hand) {
+        this.hand = hand;
+    }
+    //print hand
+    public void showHand() {
+        System.out.println("\n"+this.hand+"\n");
+    }
+    
+    //if hand value = 21 and there are 2 cards in hand, player has blackjack
+    public boolean hasBlackjack() {
+        return this.getHand().handValue() == 21&&this.getHand().size()==2;
+    }
+    
+    //hit and print players new hand
+    public void hit(Deck deck) {
+        this.hand.takeFromDeck(deck);
+        this.showHand();
+    }
+
+    //deal to dealer without printing cards
+    public void dealerHit(Deck deck) {
+        this.hand.takeFromDeck(deck);
+    }
+    
+    public abstract void play(Deck deck);
 }
