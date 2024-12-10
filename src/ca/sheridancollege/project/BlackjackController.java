@@ -4,14 +4,16 @@
  */
 package ca.sheridancollege.project;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+
 /**
  *
  * @author Mario
  * 
  */
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
+
 
 public class BlackjackController {
     private Blackjack game;
@@ -24,7 +26,7 @@ public class BlackjackController {
 
     public void play() {
         int playerCount;
-        //exception handling for player count
+        // Exception handling for player count
         while (true) {
             //if player is above 5 or below 1, 
             try {
@@ -49,17 +51,13 @@ public class BlackjackController {
         for (Player player : players) {
             BlackjackPlayer blackjackPlayer = (BlackjackPlayer) player;
             int bet;
-            //exceptions for invalid bets
+            // Exceptions for invalid bets
             while (true) {
                 try {
                     bet = view.getBetAmount(blackjackPlayer);
                     //bet cant be negative
                     if (bet <= 0) {
                         throw new IllegalArgumentException("Bet must be a positive number.");
-                    } 
-                    //cant bet more than your balance
-                    else if (bet > blackjackPlayer.getBalance()) {
-                        throw new IllegalArgumentException("Bet cannot exceed your balance.");
                     }
                     break;
                 }
@@ -77,6 +75,11 @@ public class BlackjackController {
 
         game.dealInitialCards();
 
+        // If the dealer has blackjack, the game should end immediately, no further actions are allowed
+        if (game.dealerHasBlackjack()) {
+            return;
+        }
+
         view.displayDealerFaceUpCard(game.getDealer());
 
         boolean allPlayersBusted = true;
@@ -85,6 +88,7 @@ public class BlackjackController {
             BlackjackPlayer blackjackPlayer = (BlackjackPlayer) player;
 
             view.displayPlayerHand(blackjackPlayer);
+            view.displayDealerFaceUpCard(game.getDealer());
             while (blackjackPlayer.getHand().handValue() < 21) {
                 int action = 0;
                 while (true) {
@@ -104,8 +108,7 @@ public class BlackjackController {
                 if (action == 1) {
                     blackjackPlayer.hit(game.getDeck());
                     view.displayPlayerHand(blackjackPlayer);
-                } 
-                else {
+                } else {
                     break;
                 }
             }
@@ -119,12 +122,11 @@ public class BlackjackController {
             game.declareWinner();
             return;
         }
-        //dealer code is automated and in blackjackdealer class
+
+        // Dealer's turn is automated and in BlackjackDealer class
         view.displayMessage("Dealer's turn");
         game.getDealer().play(game.getDeck());
 
         game.declareWinner();
     }
 }
-
-

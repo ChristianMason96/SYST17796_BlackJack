@@ -13,12 +13,7 @@ public class BlackjackDealer extends Player {
         super.setName("dealer");
     }
 
-    //shows a dealer card to the players
-    public void showDealerHand() {
-        System.out.println("The dealer's face-up card:");
-        System.out.println(super.getHand().getCard(0));
-    }
-    
+
 
     @Override
     public void play(Deck deck) {
