@@ -11,13 +11,44 @@ import java.util.Scanner;
  * @author Mario
  */
 
+
 public class GameController {
     public static void main(String[] args) {
-        //instantiates blackjack model view and controller
+        // Create scanner for user input
+        Scanner input = new Scanner(System.in);
+        // Instantiate the game, view, and controller
         Blackjack game = new Blackjack("Blackjack");
         BlackjackView view = new BlackjackView();
         BlackjackController controller = new BlackjackController(game, view);
 
-        controller.play();
+        boolean continuePlaying = true;
+
+        // Main game loop to allow multiple rounds
+        while (continuePlaying) {
+            controller.play();
+
+            while (true) {
+                System.out.println("Do you want to play another round? (yes/no)");
+                //removes whitespace and makes answer not case sensitive
+                String answer = input.nextLine().trim().toLowerCase();
+               
+                //starts new round
+                if (answer.equals("yes")) {
+                    continuePlaying = true;
+                    break;
+                } 
+                //ends program if players type no
+                else if (answer.equals("no")) {
+                    continuePlaying = false;
+                    break;
+                } 
+                //error handling
+                else {
+                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                }
+            }
+        }
+
+        input.close();
     }
 }

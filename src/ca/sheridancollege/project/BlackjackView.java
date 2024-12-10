@@ -4,14 +4,14 @@
  */
 package ca.sheridancollege.project;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  *
  * @author Mario
  */
 
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class BlackjackView {
     private final Scanner scanner = new Scanner(System.in);
@@ -30,26 +30,49 @@ public class BlackjackView {
         }
     }
 
-    public int getBetAmount(Player player) {
+        public int getBetAmount(Player player) {
         if (player instanceof BlackjackPlayer) {
+            //typecasted player
             BlackjackPlayer blackjackPlayer = (BlackjackPlayer) player;
             while (true) {
                 try {
-                    System.out.println(blackjackPlayer.getName() + ", you have $" + blackjackPlayer.getBalance());
-                    System.out.println("Enter your bet amount:");
+                    System.out.println(blackjackPlayer.getName() + ", enter your bet amount (minimum 5, multiple of 5, maximum 100):");
                     int bet = scanner.nextInt();
-                    scanner.nextLine(); // consume newline
+                    // clear scanner
+                    scanner.nextLine();
+                    //minimum bet is 5
+                    if (bet < 5) {
+                        //throw error message
+                        throw new IllegalArgumentException("Minimum bet is 5.");
+                    }
+                    //bet is over 100
+                    if (bet > 100) {
+                        //throw error message
+                        throw new IllegalArgumentException("Bet cannot exceed 100.");
+                    }
+                    //bet not divisible by 5
+                    if (bet % 5 != 0) {
+                        //throw error message
+                        throw new IllegalArgumentException("Bet must be a multiple of 5.");
+                    }
                     return bet;
-                } catch (InputMismatchException e) {
+                } 
+                //player enters invalid character
+                catch (InputMismatchException e) {
                     System.out.println("Invalid input. Please enter a valid bet amount.");
                     scanner.nextLine(); // consume invalid input
+                } 
+                //print error message in try block depending on condition
+                catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
                 }
             }
-        } else {
+        } 
+        else {
+            //player is not blackjackplayer
             throw new IllegalArgumentException("Invalid player type");
         }
     }
-
     public int getPlayerAction(Player player) {
         //exception handling
         while (true) {
@@ -67,7 +90,8 @@ public class BlackjackView {
             //player enters different datatype, letters, symbols etc
             catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter 1 or 2.");
-                scanner.nextLine(); // consume invalid input
+                //clear scanner
+                scanner.nextLine();
             } 
             //prints illegal argument exception message
             catch (IllegalArgumentException e) 
@@ -94,18 +118,19 @@ public class BlackjackView {
         dealer.showHand();
     }
 
+    //prints player hand
     public void displayPlayerHand(Player player) {
         System.out.println(player.getName() + "'s hand:");
         System.out.println(player.getHand());
     }
-
+    
+    //prints hand at the end of the game
     public void displayPlayerFinalHand(Player player) {
         System.out.println(player.getName() + "'s final hand:");
         player.showHand();
     }
-
+    //prints message to console
     public void displayMessage(String message) {
         System.out.println(message);
     }
 }
-

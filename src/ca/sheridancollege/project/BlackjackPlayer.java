@@ -15,50 +15,35 @@ import java.util.Scanner;
 
 
 public class BlackjackPlayer extends Player {
-    private double balance;
-    private double bet;
+    private double bet; // Track the current bet amount
     private Scanner input;
+    private boolean lost;
+    private boolean tie;
 
-    public BlackjackPlayer(String name, double startingBalance) {
+    public BlackjackPlayer(String name) {
         super.setName(name);
-        this.balance = startingBalance;
         this.input = new Scanner(System.in);
+        this.lost = false;
+        this.tie = false;
     }
 
-    //get player balance
-    public double getBalance() {
-        return balance;
+    public double getBet() {
+        return bet;
     }
-    
-    //method to take the bet from user's default balance of 100
+
     public void placeBet(double bet) {
         this.bet = bet;
-        balance -= bet;
-    }
-
-    //adds original bet back to balance * 2 for winning
-    public void winBet() {
-        balance += 2 * bet;
-    }
-    //if player's starting hand is blackjack, they get extra payout
-    public void blackjackPayout() {
-        balance += 2.5 * bet;
-    }
-
-    //returns bet to player if they tie with the dealer
-    public void tieBet() {
-        balance += bet;
     }
 
     @Override
     public void play(Deck deck) {
         //control variable
         boolean continuePlaying = true;
-        //player still plays while continuePlaying is true
+        // Player continues playing until they bust or stand
         while (continuePlaying && this.getHand().handValue() < 21) {
             System.out.println(this.getName() + ", choose an action: (1) Hit (2) Stand");
             int action = input.nextInt();
-            
+
             //if player types 1, they hit and keep playing their turn
             if (action == 1) {
                 this.hit(deck);
@@ -66,7 +51,7 @@ public class BlackjackPlayer extends Player {
                     System.out.println(this.getName() + " busts with " + this.getHand().handValue());
                     continuePlaying = false;
                 }
-            }
+            } 
             //if player enters 2, they end their turn with their current hand
             else if (action == 2) {
                 continuePlaying = false;
@@ -79,7 +64,7 @@ public class BlackjackPlayer extends Player {
 
     @Override
     public void hit(Deck deck) {
-        //output to let us know which player was dealt card in initial dealing
+        // Indicate the player was dealt a card
         System.out.println(this.getName() + " is dealt a card.");
         super.hit(deck);
     }
